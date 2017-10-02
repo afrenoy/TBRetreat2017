@@ -17,6 +17,7 @@
 %
 
 \usepackage{etoolbox}
+\usepackage{xcolor}
 \usepackage{hyperref}
 % this is to include motion pictures
 \usepackage{multimedia}
@@ -133,7 +134,9 @@
 \section{Introduction}
 \begin{frame}
     \begin{center}
-        \textbf{\small or \huge\\ How to get data from the web to your PC}
+        \textbf{\small or}
+        \vspace*{1cm}
+        \textbf{\huge\\ How to get data from the web to your PC}
     \end{center}
 \end{frame}
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -163,16 +166,17 @@
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-    \frametitle{Approach}
+    \frametitle{\textbf{Approach}}
     \begin{center}
-        \begin{itemize}
-            \item \begin{enumerate}
-                    \item API
-                    \item File
-                    \item Contact
-                    \item Scrape
-                \end{enumerate}
-        \end{itemize}
+        \begin{enumerate}
+            \item Designated provision of raw data:
+                \begin{itemize}
+                    \item[\textcolor{red}{\ding{220}}] Downloadable Content
+                    \item[\textcolor{red}{\ding{220}}]Application programing interface (API)
+                \end{itemize}
+            \item Request raw data
+            \item[\textcolor{red}{\ding{220}}] Scrape data from HTML
+        \end{enumerate}
     \end{center}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
