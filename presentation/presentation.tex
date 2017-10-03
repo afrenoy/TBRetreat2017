@@ -15,10 +15,13 @@
 % (hyperref)                because \thepage is undefined. 
 % Hyperref stopped early 
 %
+\definecolor{links}{HTML}{2A1B81}
+\hypersetup{colorlinks=true,linkcolor=,urlcolor=blue,linkbordercolor=blue,}
+
+
 
 \usepackage{etoolbox}
 \usepackage{xcolor}
-\usepackage{hyperref}
 % this is to include motion pictures
 \usepackage{multimedia}
 \usepackage{graphicx}
@@ -166,18 +169,54 @@
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
+    \frametitle{\textbf{Overview}}
+    \begin{itemize}
+        \item[\ding{220}] \textbf{Present the \textit{correct} approach}
+        \item[\ding{220}] \textbf{Show how to by means of examples}
+        \item[\ding{220}] \textbf{Provide links for additional reading}
+    \end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
     \frametitle{\textbf{Approach}}
     \begin{center}
         \begin{enumerate}
-            \item Designated provision of raw data:
+            \item \textbf{Designated provision of raw data:}
                 \begin{itemize}
-                    \item[\textcolor{red}{\ding{220}}] Downloadable Content
-                    \item[\textcolor{red}{\ding{220}}]Application programing interface (API)
+\only<1>{
+                    \item \textbf{Downloadable Content}
+}
+\only<2->{
+                    \item[\textcolor{red}{\ding{220}}] \textbf{Downloadable Content}
+}
+\only<1>{
+                    \item \textbf{Application programing interface (API)}
+}
+\only<2->{
+                    \item[\textcolor{red}{\ding{220}}] \textbf{Application programing interface (API)}
+}
                 \end{itemize}
-            \item Request raw data
-            \item[\textcolor{red}{\ding{220}}] Scrape data from HTML
+            \item  \textbf{Request raw data}
+\only<1>{
+            \item \textbf{Scrape data from HTML}
+}
+\only<2->{
+            \item[\textcolor{red}{\ding{220}}] \textbf{Scrape data from HTML}
+}
+\uncover<2->{
+            \item[\textcolor{red}{\ding{220}}]\textbf{How to process received data}
+}
         \end{enumerate}
     \end{center}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+    \frametitle{\textbf{Downloadable Content}}
+    \textbf{Server provides a data file}
+    \begin{itemize}
+        \item[\ding{220}] \textbf{Go to the website, click on item\ldots}
+        \item[\ding{220}] \textbf{Use command line tool like \href{https://www.gnu.org/software/wget/}{wget} or \href{https://curl.haxx.se/docs/manpage.html}{curl} 
+            }
+    \end{itemize}
+\end{frame}
 \end{document}
