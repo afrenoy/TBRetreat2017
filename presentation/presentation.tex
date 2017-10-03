@@ -1,23 +1,27 @@
 \PassOptionsToPackage{subsection=false}{beamerouterthememiniframes} %removes the subsection bar in each frame
 \documentclass[hyperref={pdfpagelabels=false},unknownkeysallowed]{beamer}
 \mode<presentation>
-\usetheme{Szeged}
-%\usetheme{Berkeley}
-\usecolortheme{seagull}
-\setbeamercolor{structure}{bg=green!40!gray!50!white}
-%\setbeamercolor{palette primary}{fg=yellow,bg=yellow} % changed this
+\usetheme{Szeged} %\usetheme{Berkeley} \usecolortheme{seagull} \setbeamercolor{structure}{bg=green!40!gray!50!white} \setbeamercolor{palette primary}{fg=yellow,bg=yellow} % changed this
 \setbeamercolor{background canvas}{bg=white!90!gray}%parent=normal text}
 %\usecolortheme{seahorse}
 %\usecolortheme{sidebartab}
 \setbeamercolor{itemize item}{fg=green!80!black}
+\setbeamercolor{enumerate item}{fg=gray}
+\setbeamercolor{frametitle}{fg=red!40!blue!50!black,bg=gray!40}
+\setbeamercolor{title}{fg=red!40!blue!50!black,bg=gray!40}
+
 % By  using hyperref={pdfpagelabels=false} you get rid off:
 % Package hyperref Warning: Option `pdfpagelabels' is turned off
 % (hyperref)                because \thepage is undefined. 
 % Hyperref stopped early 
 %
 \definecolor{links}{HTML}{2A1B81}
-\hypersetup{colorlinks=true,linkcolor=,urlcolor=blue,linkbordercolor=blue,}
+\colorlet{titlecolor}{red!40!blue!50!black}
+\colorlet{themecolor}{red!40!blue!50!white}
+\colorlet{urlcolor}{red!30!blue!60!black}
+\colorlet{filecolor}{red!20!blue!70!gray}
 
+\hypersetup{colorlinks=true,linkcolor=darkgray,urlcolor=urlcolor,filecolor=filecolor}
 
 
 \usepackage{etoolbox}
@@ -87,6 +91,15 @@
     }
 }
 
+% custom item elements
+\newcommand{\titem}{\item[\color{themecolor}\ding{220}]} 
+\newcommand{\grayitem}{\item[\color{gray}\ding{220}]}
+
+% 'fill' slide to but stuff at the buttom
+\newcommand{\tobottom}{\vskip0pt plus 1filll}
+
+
+
 \makeatletter
 \patchcmd{\beamer@sectionintoc}{\vskip1.5em}{\vskip0.5em}{}{}
 \makeatother
@@ -139,7 +152,7 @@
     \begin{center}
         \textbf{\small or}
         \vspace*{1cm}
-        \textbf{\huge\\ How to get data from the web to your PC}
+        \textcolor{titlecolor}{\textbf{\huge\\ How to get data from the web to your PC}}
     \end{center}
 \end{frame}
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -164,59 +177,72 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
     \begin{center}
-        \textbf{\huge How to get data form the web\\ to your PC}
+        \textcolor{titlecolor}{\textbf{\huge\\ How to get data from the web to your PC}}
     \end{center}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
     \frametitle{\textbf{Overview}}
     \begin{itemize}
-        \item[\ding{220}] \textbf{Present the \textit{correct} approach}
-        \item[\ding{220}] \textbf{Show how to by means of examples}
-        \item[\ding{220}] \textbf{Provide links for additional reading}
+        \titem \textbf{Present the \textit{correct} approach}
+        \titem \textbf{Show how to by means of examples}
+        \titem \textbf{Provide links for additional reading}
     \end{itemize}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-    \frametitle{\textbf{Approach}}
+    \frametitle{\textbf{The \textit{Correct} Approach}}
     \begin{center}
         \begin{enumerate}
             \item \textbf{Designated provision of raw data:}
                 \begin{itemize}
-\only<1>{
-                    \item \textbf{Downloadable Content}
-}
-\only<2->{
-                    \item[\textcolor{red}{\ding{220}}] \textbf{Downloadable Content}
-}
-\only<1>{
-                    \item \textbf{Application programing interface (API)}
-}
-\only<2->{
-                    \item[\textcolor{red}{\ding{220}}] \textbf{Application programing interface (API)}
-}
+                    \only<1>{\grayitem}\only<2->{\titem} \textbf{Downloadable Content}
+                    \only<1>{\grayitem}\only<2->{\titem} \textbf{Application programing interface (API)}
                 \end{itemize}
             \item  \textbf{Request raw data}
-\only<1>{
-            \item \textbf{Scrape data from HTML}
-}
-\only<2->{
-            \item[\textcolor{red}{\ding{220}}] \textbf{Scrape data from HTML}
-}
-\uncover<2->{
-            \item[\textcolor{red}{\ding{220}}]\textbf{How to process received data}
-}
+            \only<1>{\item}\only<2->{\titem} \textbf{Scrape data from HTML}
+            \uncover<2->{
+                \titem \textbf{What to do with the data afterwards}
+            }
         \end{enumerate}
+\vspace*{1cm}
+\uncover<2->{
+    \textbf{\textcolor{themecolor}{\ding{220}}: What will be covered}
+}
     \end{center}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
+\begin{frame}[label=downloadable_content]
     \frametitle{\textbf{Downloadable Content}}
-    \textbf{Server provides a data file}
+    \textbf{\Large Server provides a data file}
+    \vspace*{0.5cm}
     \begin{itemize}
-        \item[\ding{220}] \textbf{Go to the website, click on item\ldots}
-        \item[\ding{220}] \textbf{Use command line tool like \href{https://www.gnu.org/software/wget/}{wget} or \href{https://curl.haxx.se/docs/manpage.html}{curl} 
-            }
+        \grayitem \textbf{\texttt{Go to the website}, \texttt{click on item}\ldots}
+        \titem \textbf{\hyperlink{commandline}{Use the command line}}
+        %  tool like \href{https://www.gnu.org/software/wget/}{wget} or \href{https://curl.haxx.se/docs/manpage.html}{curl}
     \end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[label=commandline]
+    \frametitle{\textbf{Command Line Tools}}
+    \begin{itemize}
+        \titem \textbf{\href{https://www.gnu.org/software/wget/}{wget}}
+            \begin{itemize}
+                \grayitem \href{run:../command_line_tools/wget_file_example.txt}{\textbf{wget example}}
+
+            \end{itemize}
+        \titem \textbf{\href{https://curl.haxx.se/docs/manpage.html}{curl}}
+            \begin{itemize}
+                \grayitem \href{https://ec.haxx.se/cmdline-globbing.html}{creating url lists and ranges}
+            \end{itemize}
+    \end{itemize}
+    \tobottom
+    \hyperlink{downloadable_content}{\beamerreturnbutton{Downloadable Content}}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[label=commandline_tools]
 \end{frame}
 \end{document}
