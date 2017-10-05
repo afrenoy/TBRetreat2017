@@ -1,36 +1,58 @@
+<center>
 # How to get data from the web to your PC
+or 
+## The Good, The Bad and the Ugly
+</center>
 
 # Part 1: The Good
 
+The server provides the data you are interested in either in the form of files or, even better, the server provides an API.
 
-Say you want to get the [csv files provided as supplementary information](http://www.pnas.org/content/suppl/2017/08/09/1616744114.DCSupplemental) for the following, randomly chosen, paper:
+## Downloadable Content
 
-[Genomic evidence reveals a radiation of placental mammals uninterrupted by the KPg boundary](http://www.pnas.org/content/114/35/E7282.abstract)
+Say you want to get the [PDF files provided as supplementary information](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005704#sec016) for the following paper:
 
-## wget
+[Host population structure impedes reversion to drug sensitivity after discontinuation of treatment](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005704#sec016)
+
+### use wget - the non-interactive network downloader
+
+Open an terminal and type:
 
 ```bash
-    wget www.pnas.org/content/suppl/2017/08/09/1616744114.DCSupplemental/pnas.1616744114.sd01.csv
+
+    wget https://doi.org/10.1371/journal.pcbi.1005704.s001 -O s001.pdf
+
 ```
+`-O xxx` provides a destination to store the downloaded file. 
 
 As simple as that!
 
-## curl
+### alternative: curl - transfer an URL
+
 
 ```bash
-    curl www.pnas.org/content/suppl/2017/08/09/1616744114.DCSupplemental/pnas.1616744114.sd[01-10].csv -o 'data/#1.csv'
+
+    curl -L https://doi.org/10.1371/journal.pcbi.1005704.s[001-007] -o 'SI_#1.pdf'
+
 ```
 
-`[01-10]` defines a range parameter. `#1` designates this (the first) parameter.
+- `[001-007]` defines a range parameter.
+- `#1` designates this (the first) parameter.
+- `-L` makes sure that upon redirect you still get the content of the page you are 
+redirected to and not just the URL of this page.
 
 
-## Use wget to get _all_ files
+### Use wget to get _all_ files
+
 
 ```bash
-    wget -nd -r -P images/ -A jpg http://tb-paperplane.ethz.ch/
+    wget -O - -nd -r -P images/ -A jpg http://tb-paperplane.ethz.ch/
 ```
 
-The presentation can be found [here](presentation/)
+## API
+
+
+
 
 # Part 2: The Bad and the Ugly
 
