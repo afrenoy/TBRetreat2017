@@ -54,7 +54,7 @@ redirected to and not just the URL of this page.
 
 
 
-# Part 2: The Bad and the Ugly
+# Part 2: The Ugly
 
 ## Pre-requisite
 
@@ -164,3 +164,7 @@ We need to parse the page http://www.nature.com/nature/archive/index.html?year=2
 `./nature.py` will do this, finding the link toward the page of each research article or letter, and download the matching PDF file.
 
 We use the same technique and tools than in the google scholar example, however the parsing is more complex: we must first parse the webpage listing all 2016 issues, and then parse the webpage of each issue separatly. 
+
+# Part 3: The Bad
+
+Not sharing data hampers comprehension of scientific conlusions. Don't be the bad, share your data!
