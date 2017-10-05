@@ -46,7 +46,44 @@ redirected to and not just the URL of this page.
 
 
 ```bash
-    wget -O - -nd -r -P images/ -A jpg http://tb-paperplane.ethz.ch/
+    wget -nd -r -P images/ -A jpg http://tb-paperplane.ethz.ch/
+```
+
+### Use a programming language
+
+(other than bash)
+
+In python using only standard libraries this could look like:
+
+```python
+
+    import urllib2 as u2
+
+    si_file_url = u'https://doi.org/10.1371/journal.pcbi.1005704.s{0:03d}'
+    si_file_name = u'SI_{0:03}.pdf'
+
+    resp = u2.urlopen(si_file_url.format(1))
+    with open(si_file_name.format(1), 'wb') as f:
+        f.write(resp.read())
+
+```
+
+Using the [requests](http://docs.python-requests.org/en/master/) package:
+```python
+
+    import requests as reqs
+
+    si_file_url = u'https://doi.org/10.1371/journal.pcbi.1005704.s{0:03d}'
+    si_file_name = u'SI_{0:03}.pdf'
+
+
+    def get_SI(nbr):
+        resp = reqs.get(si_file_url.format(nbr))
+        with open(si_file_name.format(nbr), 'wb') as f:
+            f.write(resp.content)
+
+    map(lambda x: get_SI(x), range(1, 8))
+
 ```
 
 ## API
