@@ -19,9 +19,7 @@ Say you want to get the [PDF files provided as supplementary information](http:/
 Open an terminal and type:
 
 ```bash
-
-    wget https://doi.org/10.1371/journal.pcbi.1005704.s001 -O s001.pdf
-
+wget https://doi.org/10.1371/journal.pcbi.1005704.s001 -O s001.pdf
 ```
 `-O xxx` provides a destination to store the downloaded file. 
 
@@ -31,9 +29,7 @@ As simple as that!
 
 
 ```bash
-
-    curl -L https://doi.org/10.1371/journal.pcbi.1005704.s[001-007] -o 'SI_#1.pdf'
-
+curl -L https://doi.org/10.1371/journal.pcbi.1005704.s[001-007] -o 'SI_#1.pdf'
 ```
 
 - `[001-007]` defines a range parameter.
@@ -46,7 +42,7 @@ redirected to and not just the URL of this page.
 
 
 ```bash
-    wget -nd -r -P images/ -A jpg http://tb-paperplane.ethz.ch/
+wget -nd -r -P images/ -A jpg http://tb-paperplane.ethz.ch/
 ```
 
 ### Use a programming language
@@ -56,40 +52,96 @@ redirected to and not just the URL of this page.
 In python using only standard libraries this could look like:
 
 ```python
+import urllib2 as u2
 
-    import urllib2 as u2
+si_file_url = u'https://doi.org/10.1371/journal.pcbi.1005704.s{0:03d}'
+si_file_name = u'SI_{0:03}.pdf'
 
-    si_file_url = u'https://doi.org/10.1371/journal.pcbi.1005704.s{0:03d}'
-    si_file_name = u'SI_{0:03}.pdf'
-
-    resp = u2.urlopen(si_file_url.format(1))
-    with open(si_file_name.format(1), 'wb') as f:
-        f.write(resp.read())
-
+resp = u2.urlopen(si_file_url.format(1))
+with open(si_file_name.format(1), 'wb') as f:
+    f.write(resp.read())
 ```
 
 Using the [requests](http://docs.python-requests.org/en/master/) package:
 ```python
+import requests as reqs
 
-    import requests as reqs
-
-    si_file_url = u'https://doi.org/10.1371/journal.pcbi.1005704.s{0:03d}'
-    si_file_name = u'SI_{0:03}.pdf'
+si_file_url = u'https://doi.org/10.1371/journal.pcbi.1005704.s{0:03d}'
+si_file_name = u'SI_{0:03}.pdf'
 
 
-    def get_SI(nbr):
-        resp = reqs.get(si_file_url.format(nbr))
-        with open(si_file_name.format(nbr), 'wb') as f:
-            f.write(resp.content)
+def get_SI(nbr):
+    resp = reqs.get(si_file_url.format(nbr))
+    with open(si_file_name.format(nbr), 'wb') as f:
+        f.write(resp.content)
 
-    map(lambda x: get_SI(x), range(1, 8))
-
+map(lambda x: get_SI(x), range(1, 8))
 ```
 
 ## API
 
+Say you want to look at someones publication output over time, and let's use Sebastian as a guinea pig.
+
+To get the get the list of publications you can either open your browser, got to [EuropePMC.org](https://europepmc.org/) and search for Sebastian's publications (search string `AUTH:"Bonhoeffer S"`) or use [EuropePMC API](https://europepmc.org/RestfulWebService).
 
 
+To see the difference between a normal and an API request add the query `query=AUTH:%22Bonhoeffer%20S%22&format=json&pageSize=1000` once to the absolute path for a normal request and once to the absolute path of the API, so:
+
+**normal**
+
+https://europepmc.org/search?query=AUTH:%22Bonhoeffer%20S%22&format=json&pageSize=1000
+
+**API**
+
+https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=AUTH:%22Bonhoeffer%20S%22&format=json&pageSize=1000
+
+and inspect the files created by the following commands:
+
+
+```bash
+wget https://europepmc.org/search?query=AUTH:%22Bonhoeffer%20S%22&format=json&pageSize=1000 -O TB_pubs_normal
+```
+and
+```bash
+wget https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=AUTH:%22Bonhoeffer%20S%22&format=json&pageSize=1000 -O TB_pubs_API
+```
+
+In the normal case we get a HTML document, the API request results in a [json file](http://www.json.org/).
+
+```python
+import request as reqs
+api_url = u'https://www.ebi.ac.uk/europepmc/webservices/rest/search'
+# the search parameters
+search_p = {
+    'query': 'AUTH:"Bonhoeffer S"
+    'format': 'json',
+    'pageSize': 1000
+}
+response = reqs.get(api_url, params=search_p)
+# print requests.url  # to see the actual reques python sent
+```
+`requests` allows you to directly treat the content of the response as a json object:
+```python
+as_json = response.json()
+# as_json.keys()  # to see how the object is structured
+tb_pub_list = as_json['resultList']['result']
+```
+Now we can work with this json data: Let's have a look at the publication per year:
+```python
+pub_per_year = {}
+for a_pub in tb_pub_list:
+    try:
+        pub_per_year[a_pub[u'pubYear']] += 1
+    except KeyError:
+        pub_per_year[a_pub[u'pubYear']] = 1
+# print pub_per_year  # have a look at what we got
+year_count = [(int(k), v) for k, v in pub_per_year.itesm()]
+# we need to sort the list as the keys in a dict were unsorted
+year_count.sort(key=lambda x: x[0])
+# plot the data
+from matplotlib import pyplot as plt
+plt.plot(*zip(*year_count))
+```
 
 # Part 2: The Ugly
 
