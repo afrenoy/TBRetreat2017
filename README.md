@@ -89,21 +89,21 @@ To see the difference between a normal and an API request add the query `query=A
 
 **normal**
 
-https://europepmc.org/search?query=AUTH:%22Bonhoeffer%20S%22&format=json&pageSize=1000
+https://europepmc.org/search?query=AUTH:"Bonhoeffer S"&format=json&pageSize=1000
 
 **API**
 
-https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=AUTH:%22Bonhoeffer%20S%22&format=json&pageSize=1000
+https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=AUTH:"Bonhoeffer S"&format=json&pageSize=1000
 
 and inspect the files created by the following commands:
 
 
 ```bash
-wget https://europepmc.org/search?query=AUTH:%22Bonhoeffer%20S%22&format=json&pageSize=1000 -O TB_pubs_normal
+wget 'https://europepmc.org/search?query=AUTH:"Bonhoeffer S"&format=json&pageSize=1000' -O TB_pubs_normal
 ```
 and
 ```bash
-wget https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=AUTH:%22Bonhoeffer%20S%22&format=json&pageSize=1000 -O TB_pubs_API
+wget 'https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=AUTH:"Bonhoeffer S"&format=json&pageSize=1000' -O TB_pubs_API
 ```
 
 In the normal case we get a HTML document, the API request results in a [json file](http://www.json.org/).
