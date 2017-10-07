@@ -113,7 +113,7 @@ import request as reqs
 api_url = u'https://www.ebi.ac.uk/europepmc/webservices/rest/search'
 # the search parameters
 search_p = {
-    'query': 'AUTH:"Bonhoeffer S"
+    'query': 'AUTH:"Bonhoeffer S"',
     'format': 'json',
     'pageSize': 1000
 }
