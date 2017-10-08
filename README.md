@@ -239,9 +239,9 @@ Firefox (or any browser) is *rendering* a website. We need to see the source (ht
 * Use the "view source" option in Firefox (CMD + u)
 * Download the webpage with wget or curl and open it with a text editor
 * If doing this within a program, use built-in libraries, eg urllib for Python
-* For exploring and understanding the structure, the best is Firefox developer tools (CMD + ALT + c): permit to view the source and the rendered page at the same time
+* For exploring and understanding the structure, the best is Firefox Inspector (CMD + ALT + c): permit to view the source and the rendered page at the same time
 
-The structure is easy to understand. Basic knowledge of html helps but is not strictly required. Usefull ressources on html are listed in the "References" section.
+The structure is easy to understand. Basic knowledge of html helps but is not strictly required. Useful resources on html are listed in the "References" section.
 
 How can we parse Google Scholar html code and extract the relevant information (number of citations for each article)?
 
@@ -252,20 +252,20 @@ Let's launch Python in a terminal and start experimenting! Let's also open a tex
 * First attempt: `./gs0.py "https://scholar.google.ch/citations?user=YILsNPMAAAAJ&hl=en"`
 
   Only get the first 20 citations, why?  
-  Look in webinspector and find the &pagesize parameter (in Network, after clicking "show more"). Add &pagesize=xxx to the URL, trying manually a few different values -> we can get more citations!
+  Look in Firefox Inspector and find the &pagesize parameter (in Network, after clicking "show more"). Add &pagesize=xxx to the URL, trying manually a few different values -> we can get more citations!
 
 * Second attempt: `./gs1.py "https://scholar.google.ch/citations?user=YILsNPMAAAAJ&hl=en"`
 
   Now gets all citations! But does it work with a longer profile?  
   No! `./gs1.py "https://scholar.google.ch/citations?user=L_JGehAAAAAJ&hl=en"` does only grab the first 100 citations even with "pagesize=200"  
-  Go back to webinspector and find the &cstart parameter: the only way to have the full webpage is to request several pages with "cstart=0", "cstart=100", "cstrat=200"... (and always "pagesize=100")  
+  Go back to Firefox Inspector and find the &cstart parameter: the only way to have the full webpage is to request several pages with "cstart=0", "cstart=100", "cstrat=200"... (and always "pagesize=100")  
 
 * Third attempt: `./gs2.py "https://scholar.google.ch/citations?user=L_JGehAAAAAJ&hl=en"`
 
   Works as expected! Now how to analyze this stuff? The script is slightly modify to produce a csv file if second argument is "csv".
   It is good practice to save the results into a local file so we don't query the server each time! Something like `./gs2.py "https://scholar.google.ch/citations?user=L_JGehAAAAAJ&hl=en" csv > sebastian.csv`
 
-* Now let's analyse the output to do something "usefull"! For example, let's compute h-index:  
+* Now let's analyse the output to do something "useful"! For example, let's compute h-index:  
 
   ```
   cat sebastian.csv |cut -d ';' -f 2 |sort -nr |uniq -c |awk '{cumsum += $1; if (cumsum <= $2) print cumsum,$2 }' |tail -n 1 |cut -d ' ' -f 1
@@ -283,9 +283,9 @@ Let's launch Python in a terminal and start experimenting! Let's also open a tex
 
 EcoliTox, available on https://absynth.issb.genopole.fr/Bioinformatics/, is an implementation of an algorithm predicting toxicity for E. coli of a biological compound based on its molecular structure.  
 
-Log in EcoliTox: you can create an account or just use mine (``bebopalula@caramail.com`` with password ``PizzaWinePasta``). From the home page of the absynth server, choose EcoliTox (3rd item of the retrosynthesis line). Paste the content of a [Molfile](https://en.wikipedia.org/wiki/Chemical_table_file#Molfile), which is a standard file format to describe a chemical structure, in the input window. For example use [this one](http://www.genome.jp/dbget-bin/www_bget?-f+m+compound+C00022), or search for another Mol file on [KEGG](http://www.genome.jp/kegg/kegg2.html) (search any compound by name). Press submit. After a few seconds we get a webpage with numerical result, IC50 in g/l. How can we automate the submission of many Molfiles to this webserver? 
+Log in EcoliTox: you can create an account or just use mine (``bebopalula@caramail.com`` with password ``PizzaWinePasta``). From the home page of the absynth server, choose EcoliTox (3rd item of the retrosynthesis line). Paste the content of a [Molfile](https://en.wikipedia.org/wiki/Chemical_table_file#Molfile), which is a standard file format to describe a chemical structure, in the input window. For example use [this one](http://www.genome.jp/dbget-bin/www_bget?-f+m+compound+C00022), or search for another Mol file on [KEGG](http://www.genome.jp/kegg/kegg2.html) (search any compound by name). Press submit. After a few seconds we get a webpage with numerical result, IC50 in g/l. How can we automate the submission of many Molfiles to this server? 
 
-We can first inspect the source of the submission web page (and not the results web page) in Firefox web developper tools (CMD + ALT + c). We see that everything happens in another included webpage, https://absynth.issb.genopole.fr/Bioinformatics/tools/EcoliTox/EcoliTox.php. Let's open this address. From there, the relevant information in the source is action="process.php". To understand how it works, we can paste a Molfile and press submit again, with the developper tools open. Then go to the "Network" tab, click on the line related to "process.php" and observe the "Params" and "Cookies" sub-tabs. We now have all the informations needed to write a Python script sending the exact same request to the server!
+We can first inspect the source of the submission web page (and not the results web page) in Firefox Inspector (CMD + ALT + c). We see that everything happens in another included webpage, https://absynth.issb.genopole.fr/Bioinformatics/tools/EcoliTox/EcoliTox.php. Let's open this address. From there, the relevant information in the source is action="process.php". To understand how it works, we can paste a Molfile and press submit again, with Firefox Inspector open. Then go to the "Network" tab, click on the line related to "process.php" and observe the "Params" and "Cookies" sub-tabs. We now have all the informations needed to write a Python script sending the exact same request to the server!
 
 `./et.py C00022` sends the content of the file C00022 the same way than if we copy/paste its content and press submit. It returns a webpage (html document) that contains the information we are interested in (IC50). We could parse the webpage with BeautifulSoup again to extract this information, but the structure of the webpage is so simple that we don't need this! The relevant information is between `<pre>` and `</pre>` tags, so "sed" (standard unix tool) is sufficient:
 
@@ -293,7 +293,7 @@ We can first inspect the source of the submission web page (and not the results 
 ./et.py C00022 |sed 's/.*<pre>\(.*\)\\n<\/pre>.*/\1/g'
 ```
 
-Note: we did not use the autentification Cookie. This is because the Login system is very poorly implemented. The Python script et.py contains commented lines showing how we would have dealt with a correctly implemented Login system.
+Note: we did not use the authentication Cookie. This is because the Login system is very poorly implemented. The Python script et.py contains commented lines showing how we would have dealt with a correctly implemented Login system.
 
 ## Getting PDF files for all articles published by Nature in 2016
 
@@ -303,8 +303,8 @@ We need to parse the page http://www.nature.com/nature/archive/index.html?year=2
 
 `./nature.py` will do this, finding the link toward the page of each research article or letter, and download the matching PDF file.
 
-We use the same technique and tools than in the google scholar example, however the parsing is more complex: we must first parse the webpage listing all 2016 issues, and then parse the webpage of each issue separatly. 
+We use the same technique and tools than in the google scholar example, however the parsing is more complex: we must first parse the webpage listing all 2016 issues, and then parse the webpage of each issue separately. 
 
 # Part 3: The Bad
 
-Not sharing data hampers comprehension of scientific conlusions. Don't be the bad, share your data!
+Not sharing data hampers comprehension of scientific conclusions. Don't be the bad, share your data!
