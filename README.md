@@ -143,6 +143,57 @@ from matplotlib import pyplot as plt
 plt.plot(*zip(*year_count))
 ```
 
+### API's API - or how to tweet in python
+
+Many web services provide API's which can form a substantial basis for new services to emerge. One example would be twitter that provides [an extensive API](https://developer.twitter.com/) to interface with their application.
+
+For API's of popular services there is a good chance to find software packages that facilitate the use of the API - an API for the API, so to say.
+
+Here is a basic example on how to use such a software package ([tweepy](https://github.com/tweepy/tweepy/blob/v3.5.0/docs/index.rst)) in the case of twitter:
+
+```python
+import tweepy
+```
+First we load the access credentials form a file.
+```python
+import pickle
+# load the access tokens (go see the docs for the twitter api!)
+with open('../pickles/twitter_access.p', 'r') as f:
+    cfg = pickle.load(f)
+# cfg is of the form:
+# cfg = {'access_token': 'xxxx',
+#       'access_token_secret': 'xxxx',
+#       'consumer_key': 'xxxx',
+#       'consumer_secret': 'xxxx'}
+```
+
+Now create the authentication handler object and link it to the application such that we can start to interface with twitter:
+```python
+auth = tweepy.OAuthHandler(cfg['consumer_key'], cfg['consumer_secret'])
+# link it to the specific application
+auth.set_access_token(cfg['access_token'], cfg['access_token_secret'])
+
+# 'build' the api
+t_api = tweepy.API(auth)
+```
+
+Now you can start to tweet
+```python
+# tweet
+a_tweet = u"La vita e bella - Talking about API's in #montecastelli_pisano"
+t_api.update_status(status=a_tweet)
+
+
+# destroy the last tweet
+timeline = t_api.user_timeline()
+last_tweet = timeline[0]
+print last_tweet.text
+```
+And if you want to delete it:
+```python
+t_api.destroy_status(last_tweet.id)
+```
+
 # Part 2: The Ugly
 
 ## Pre-requisite
