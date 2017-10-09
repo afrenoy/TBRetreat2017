@@ -107,7 +107,7 @@ wget 'https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=AUTH:"Bonhoe
 In the normal case we get a HTML document, the API request results in a [json file](http://www.json.org/).
 
 ```python
-import request as reqs
+import requests as reqs
 api_url = u'https://www.ebi.ac.uk/europepmc/webservices/rest/search'
 # the search parameters
 search_p = {
@@ -126,14 +126,12 @@ tb_pub_list = as_json['resultList']['result']
 ```
 Now we can work with this json data: Let's have a look at the publication per year:
 ```python
-pub_per_year = {}
+years = []
 for a_pub in tb_pub_list:
-    try:
-        pub_per_year[a_pub[u'pubYear']] += 1
-    except KeyError:
-        pub_per_year[a_pub[u'pubYear']] = 1
-# print pub_per_year  # have a look at what we got
-year_count = [(int(k), v) for k, v in pub_per_year.itesm()]
+    years.append(a_pub[u'pubYear'])
+s_years = set(years)
+counts = [years.count(year) for year in s_years]
+year_count = zip(list(s_years), counts)
 # we need to sort the list as the keys in a dict were unsorted
 year_count.sort(key=lambda x: x[0])
 # plot the data
