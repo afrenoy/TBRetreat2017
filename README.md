@@ -176,7 +176,7 @@ t_api = tweepy.API(auth)
 Now you can start to tweet
 ```python
 # tweet
-a_tweet = u"La vita e bella - Talking about API's in #montecastelli_pisano"
+a_tweet = u"my super awesome tweet"
 t_api.update_status(status=a_tweet)
 
 
