@@ -1,8 +1,6 @@
-<center>
 # How to get data from the web to your PC
 or 
 ## The Good, The Bad and the Ugly
-</center>
 
 # Part 1: The Good
 
@@ -195,6 +193,8 @@ t_api.destroy_status(last_tweet.id)
 ```
 
 # Part 2: The Ugly
+
+The server does not provide any API nor permit to download the database
 
 ## Pre-requisite
 
