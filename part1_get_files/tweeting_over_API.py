@@ -26,7 +26,7 @@ last_tweet = timeline[0]
 print last_tweet.text
 
 # tweet
-a_tweet = u"La vita e bella - Talking about API's in #montecastelli_pisano"
+a_tweet = u"my super awesome tweet"
 t_api.update_status(status=a_tweet)
 
 # destroy the last tweet
